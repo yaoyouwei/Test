@@ -63,16 +63,16 @@ public class Pdftk {
 		InputStream erroris = null;
 		String msg = "";
 		try {
-			p = Runtime.getRuntime().exec(cmd,null,dir);//windows ��ִ��cmd����  
+			p = Runtime.getRuntime().exec(cmd,null,dir);
 			//Thread.sleep(5000);
 			while(true){
-				if(p.waitFor()==0);{//�ӽ�̽���
+				if(p.waitFor()==0);{
 					//System.out.println("execute completely!");
 					break;
 				}
 			}
-			resultis = p.getInputStream();//���  
-			erroris = p.getErrorStream();//�д���ʱ  
+			resultis = p.getInputStream();
+			erroris = p.getErrorStream();
 			resultarry = new byte[resultis.available()];  
 			errorarry = new byte[erroris.available()];  
 			resultis.read(resultarry);  

@@ -55,6 +55,25 @@
 	    <artifactId>poi-ooxml</artifactId>
 	    <version>3.11</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
+	<!-- 
+	注意环境,需要安装Visual C++ 2013 Redistributable Packages
+	Java Runtime Environment, JNA, and JAI-ImageIO are required. Apache Maven and JUnit are used for program building and unit testing. 
+	The Tesseract DLLs were built with VS2013 and 
+	therefore depend on the Visual C++ Redistributable Packages for VS2013. 
+	 -->
+	<dependency>
+	    <groupId>net.sourceforge.tess4j</groupId>
+	    <artifactId>tess4j</artifactId>
+	    <version>3.2.2</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.hynnet/jacob -->
+	<dependency>
+	    <groupId>com.hynnet</groupId>
+	    <artifactId>jacob</artifactId>
+	    <version>1.18</version>
+	</dependency>
 	
   </dependencies>
   <repositories>
@@ -73,6 +92,7 @@
 		<name>Apache Maven Repository</name>
 		<url>https://repository.apache.org/content/groups/public/</url>
 	</repository>
+	
   </repositories>
   <build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -80,10 +100,10 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
