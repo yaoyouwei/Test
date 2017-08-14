@@ -37,9 +37,11 @@ public class TesseractExample {
 		String testResourcesDataPath = "src/test/resources/test-data";
 		ITesseract  instance = new Tesseract();
         instance.setDatapath(new File(datapath).getPath());//设置词库
-        instance.setLanguage("chi_sim");  
-        instance.setLanguage("fontyyw");  
-        File imageFile = new File(testResourcesDataPath, "chiyyw.fontyyw.exp0.tif");
+        instance.setLanguage("chi_sim+eng+osd");  
+        instance.setPageSegMode(1);
+        //instance.setLanguage("fontyyw");  
+        //File imageFile = new File(testResourcesDataPath, "chiyyw.fontyyw.exp0.tif");
+        File imageFile = new File(testResourcesDataPath, "1.png");
         String result = instance.doOCR(imageFile);
         System.out.println(result);
         //assertEquals(expResult, result);
