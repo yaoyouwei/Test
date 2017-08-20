@@ -1,5 +1,6 @@
 package com.yaoyouwei.utils;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -15,10 +16,11 @@ import org.apache.commons.lang.StringUtils;
  */
 public class WildcardUtils {
 	private static Pattern  wildcardPattern;
-	private static Pattern winUnsupportFileNamePattern;
-	private static String wildcardRegex = "\\[[^\\[\\]]+\\]"; //匹配[]
+	private static Pattern winUnsupportFileNamePattern;//
+	//private static String wildcardRegex = "\\[[^\\[\\]]+\\]"; //匹配[]
+	private static String wildcardRegex = "\\[[^\\[\\]]*\\]"; //匹配[]
 	private static String winUnsupportFileNameRegex = "[\\s\\\\/:\\*\\?\\\"<>\\|]"; //windows不支持的文件名字符  / \ " : | * ? < >
-	private static String nullReplaceChar = "null";
+	private static String nullReplaceChar = "null";//当属性的值为null或者为""时替代的字符串
 	private static String errorReplaceChar = "undefined";
 	private static String unsupportChar = "-";
 	
@@ -34,15 +36,22 @@ public class WildcardUtils {
 	
 	public static void  test(){
 		User user = new User();
-		user.setName("姚有伟 0/1\\2\"3:4|5*6?7<8>9 10");
+		user.setName("姚有 伟 0/1\\2\"3:4|5*6?7<8>9 10");
+		//user.setName("  ");
 		user.setAge(null);
-		String str = "D:/[tt][TT]/[ms]年[yy][mm]/[m]/[mm]/[dd]/[user.name]/[user.age]/ww";
+		String str = "D:/[tt][TT]/[ms]年\\[yy][mm]/[m]/[mm]/[dd]/[user.name]/[user.age]/ww";
 		String value = WildcardUtils.getWildcardValue(str,user);
 		System.out.println(value);
+		File f = new File(value);
+		System.out.println("path:"+f.getAbsolutePath());
+		System.out.println("isDir:"+f.isDirectory());
+		System.out.println("exists:"+f.exists());
+		//System.out.println("create:"+f.mkdirs());
 		
-		str = "D:/[YYYY]/[YY]/[MM]/[M]/[dd]/[d]/[tt]/[TT]/[HH]/[H]/[hh]/[h]/[mm]/[m]/[ss]/[s]/[ms]/[4]";
+		str = "D:/[YYYY]/[[ ]]/[YY]/[MM]/[M]/[dd]/[d]/[tt]/[TT]/[HH]/[H]/[hh]/[h]/[mm]/[m]/[ss]/[s]/[ms]/[4]/[]";
 		value = WildcardUtils.getWildcardValue(str,user);
 		System.out.println(value);
+		
 	}
 	
 	
@@ -84,10 +93,14 @@ public class WildcardUtils {
 			if(!StringUtils.equalsIgnoreCase(className, templateClass.getSimpleName())){
 				throw new Exception("Class expected "+className+" but was "+templateClass.getSimpleName());
 			}
-			//value = getFieldWildcardValue(classField, template);
 			Field field = templateClass.getDeclaredField(classFieldName);
 			field.setAccessible(true); //打开javabean的访问权限
-			value = String.valueOf(field.get(template));
+			Object fieldValue = field.get(template);
+			if(fieldValue == null ||StringUtils.isEmpty((String)fieldValue)){
+				value = nullReplaceChar;
+			}else{
+				value = (String)fieldValue;
+			}
 		} catch (Exception e) {
 			value = errorReplaceChar;
 			e.printStackTrace();
@@ -179,28 +192,6 @@ public class WildcardUtils {
 		return value;
 	}
 	
-	public static <T> String getFieldWildcardValue(String fieldName,T template ){
-		String value = errorReplaceChar;
-		try {
-			Class<? extends Object> cls = template.getClass();
-			Field field = cls.getDeclaredField(fieldName);
-			field.setAccessible(true); //打开javabean的访问权限
-			value = String.valueOf(field.get(template));
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return value;
-	}
 	
 	// 首字母转小写
 	public static String toLowerCaseFirstOne(String s) {
