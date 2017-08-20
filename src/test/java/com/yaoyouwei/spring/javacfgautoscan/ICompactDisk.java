@@ -1,4 +1,4 @@
-package com.yaoyouwei.spring;
+package com.yaoyouwei.spring.javacfgautoscan;
 
 /** 
  * @ClassName: CompactDisk   

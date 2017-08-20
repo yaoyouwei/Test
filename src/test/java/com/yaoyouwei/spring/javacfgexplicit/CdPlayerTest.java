@@ -1,4 +1,4 @@
-package com.yaoyouwei.spring;
+package com.yaoyouwei.spring.javacfgexplicit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,17 +10,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @ClassName: CompactDiskMyImplTest   
  * @Author yaoyouwei
  * @Date 2017年8月14日 下午11:00:08 
- * @Description: 
+ * @Description: Java配置,显示配置注入JavaBean
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=CdPlayerConfig.class)//使用Java配置
 public class CdPlayerTest {
 	@Autowired
-	private ICompactDisk compactDiskCd;
+	private CdPlayer cdPlayer;
 
 	@Test
 	public void test() {
-		compactDiskCd.play();
+		cdPlayer.playCd();
 	}
 
 }
